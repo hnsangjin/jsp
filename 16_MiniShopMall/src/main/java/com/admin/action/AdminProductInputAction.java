@@ -24,7 +24,7 @@ public class AdminProductInputAction implements Action {
 		request.setAttribute("CategoryList", list);
 		
 		ActionForward forward = new ActionForward();
-		
+		System.out.println();
 		forward.setRedirect(false);
 		forward.setPath("admin/admin_product_input.jsp");
 		
