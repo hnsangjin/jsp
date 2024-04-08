@@ -296,7 +296,27 @@ public class ProductDAO {
 
 	}
 	
-	
+	public void updateSequence(int no) {
+		
+		
+		try {
+			openConn();
+			
+			sql = "update shop_products set pnum = pnum - 1 where pnum > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 	
 	

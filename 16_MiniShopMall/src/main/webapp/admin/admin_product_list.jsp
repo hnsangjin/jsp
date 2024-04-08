@@ -13,7 +13,7 @@
 		let res = confirm("삭제하시겠습니까?");
 		
 		if(res){
-			location.href="admin_product_delete.go?pnum" + pnum;
+			location.href="admin_product_delete.go?num=" + pnum;
 			
 		}
 		
