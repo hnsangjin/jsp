@@ -54,7 +54,7 @@ public class FrontController extends HttpServlet {
 
 		prop.load(fis);
 
-		String value = prop.getProperty(command).trim();
+		String value = prop.getProperty(command);
 
 		System.out.println("value >>> " + value);
 
