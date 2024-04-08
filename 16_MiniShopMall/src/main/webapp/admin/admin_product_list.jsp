@@ -7,6 +7,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	function del(pnum){
+		
+		let res = confirm("삭제하시겠습니까?");
+		
+		if(res){
+			location.href="admin_product_delete.go?pnum" + pnum;
+			
+		}
+		
+	}
+</script>
 
 <style type="text/css">
 th {
@@ -29,7 +41,7 @@ th {
 			<th>수 량</th>
 			<th>제 조 사</th>
 			<th>등 록 일</th>
-			<th>수 정&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 삭제</th>
+			<th>수 정&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 삭 제</th>
 		</tr>
 		<c:set var="list" value="${productList }" />
 		<c:if test="${!empty list }">
@@ -45,7 +57,7 @@ th {
 					<td>${dto.getPqty() }</td>
 					<td>${dto.getPcompany() }</td>
 					<td>${dto.getPinputdate().substring(0, 10) }</td>
-					<td><a href="<%=request.getContextPath() %>/admin_product_modify.go?num=${dto.getPnum() }">수정</a> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; <a
+					<td><a href="<%=request.getContextPath() %>/admin_product_modify.go?num=${dto.getPnum() }">수 정</a> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; <a
 						href="javascript:del(${dto.getPnum() })">삭 제</a></td>
 
 				</tr>

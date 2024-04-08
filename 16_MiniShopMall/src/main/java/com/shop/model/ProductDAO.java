@@ -270,6 +270,38 @@ public class ProductDAO {
 
 	}
 	
+	public int deleteProduct(int no) {
+
+		int result = 0;
+
+		try {
+			openConn();
+
+			sql = "delete from shop_products where pnum = ?";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, no);
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(pstmt, con);
+
+		}
+		return result;
+
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
