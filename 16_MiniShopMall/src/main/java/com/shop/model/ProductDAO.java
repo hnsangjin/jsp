@@ -238,7 +238,37 @@ public class ProductDAO {
 		return dto;
 
 	}
-	
+
+	public int updateProduct(ProductDTO dto) {
+
+		int result = 0;
+
+		try {
+			openConn();
+
+			sql = "update shop_products set pimage = ?, pqty = ?, price = ?, pspec = ?, pcontents = ?, point = ? where pnum = ?";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, dto.getPimage());
+			pstmt.setInt(2, dto.getPqty());
+			pstmt.setInt(3, dto.getPrice());
+			pstmt.setString(4, dto.getPspec());
+			pstmt.setString(5, dto.getPcontents());
+			pstmt.setInt(6, dto.getPoint());
+			pstmt.setInt(7, dto.getPnum());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(pstmt, con);
+		}
+		return result;
+
+	}
 	
 	
 	

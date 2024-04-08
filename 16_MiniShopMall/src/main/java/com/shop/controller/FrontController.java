@@ -50,7 +50,7 @@ public class FrontController extends HttpServlet {
 		 */
 
 		FileInputStream fis = new FileInputStream(
-				"C:\\NCS\\Workspace(jsp)\\16_MiniShopMall\\src\\main\\java\\com\\shop\\controller\\mapping.properties");
+				"C:\\Users\\goott3\\git\\jsp\\16_MiniShopMall\\src\\main\\java\\com\\shop\\controller\\mapping.properties");
 
 		prop.load(fis);
 
