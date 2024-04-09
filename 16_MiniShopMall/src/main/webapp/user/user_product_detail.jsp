@@ -7,6 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript">
+	function goCart(){
+		document.frm.action="<%=request.getContextPath() %>/user_cart_add.go";
+		
+		document.frm.submit();
+		
+	}
+
+</script>
 </head>
 <body>
 	<jsp:include page="../include/user_header.jsp" />

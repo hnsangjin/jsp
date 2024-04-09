@@ -6,102 +6,107 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class AdminDAO {
 
 	// DB와 연결하는 객체.
-	Connection con = null;
+		Connection con = null;
 
-	PreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 
-	ResultSet rs, rs1 = null;
+		ResultSet rs = null;
 
-	String sql = null;
+		String sql = null;
 
-	// AdminDAO 객체를 싱글턴 방식으로 만들어보자.
-	// 1단계 : AdminDAO 객체를 정적 멤버로 선언해주자.
-	private static AdminDAO instance = null;
+		// AdminDAO 객체를 싱글턴 방식으로 만들어보자.
+		// 1단계 : AdminDAO 객체를 정적 멤버로 선언해주자.
+		private static AdminDAO instance = null;
 
-	// 2단계 : 싱글턴 방식으로 객체를 만들기 위해서는 우선적으로 기본생성자의 접근지정자를 public이 아닌 private으로 변경해 주어야
-	// 함.
-	// 즉, 외부에서 직접적으로 기본생성자에 접근하여 호출하지 못하도록 하는 방법이다.
-	private AdminDAO() {
-
-	}
-
-	// 기본 생성자 대신에 싱글턴 객체를 return 해주는 getInstance() 메서드를 만들어서 해당 getInstance() 메서드를
-	// 외부에서 접근가능하도록 해줘야 함.
-	public static AdminDAO getInstance() {
-
-		if (instance == null) {
-
-			instance = new AdminDAO();
+		// 2단계 : 싱글턴 방식으로 객체를 만들기 위해서는 우선적으로 기본생성자의 접근지정자를 public이 아닌 private으로 변경해 주어야
+		// 함.
+		// 즉, 외부에서 직접적으로 기본생성자에 접근하여 호출하지 못하도록 하는 방법이다.
+		private AdminDAO() {
 
 		}
-		return instance;
-	}
 
-	// DB 연동을 작업을 하는 메서드
-	public void openConn() {
+		// 기본 생성자 대신에 싱글턴 객체를 return 해주는 getInstance() 메서드를 만들어서 해당 getInstance() 메서드를
+		// 외부에서 접근가능하도록 해줘야 함.
+		public static AdminDAO getInstance() {
 
-		String driver = "oracle.jdbc.driver.OracleDriver";
+			if (instance == null) {
 
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+				instance = new AdminDAO();
 
-		String user = "goott";
-
-		String password = "99229922";
-
-		try {
-			Class.forName(driver);
-
-			con = DriverManager.getConnection(url, user, password);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			}
+			return instance;
 		}
 
-	}
+		// DB 연동을 작업을 하는 메서드
+		// JDBC 방식이 아닌 DBCP 방식으로 DB 연동 진행
+		public void openConn() {
 
-	// DB에 연결되어 있던 자원을 종료하는 메서드
-	public void closeConn(ResultSet rs, PreparedStatement pstmt, Connection con) {
+			try {
+				// 1단계 : JNDI 서버 객체 생성
+				Context initCtx = new InitialContext();
 
-		try {
+				// 2단계 : Context 객체를 얻어와야 함.
+				Context ctx = (Context) initCtx.lookup("java:comp/env");
 
-			if (rs != null) {
-				rs.close();
+				// 3단계 : lookup() 메서드를 이용하여 매칭되는 커넥션을 찾아옴.
+				DataSource ds = (DataSource) ctx.lookup("jdbc/myoracle");
+
+				// 4단계 : DataSource 객체를 이용하여 커넥션을 하나 가져오면 됨.
+				con = ds.getConnection();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			if (con != null) {
-				con.close();
-			}
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
-	}
+		// DB에 연결되어 있던 자원을 종료하는 메서드
+		public void closeConn(ResultSet rs, PreparedStatement pstmt, Connection con) {
 
-	public void closeConn(PreparedStatement pstmt, Connection con) {
+			try {
 
-		try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
 
-			if (pstmt != null) {
-				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (con != null) {
-				con.close();
-			}
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
-	}
+		public void closeConn(PreparedStatement pstmt, Connection con) {
+
+			try {
+
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 
 	public int adminCheck(String id, String pwd) {
 
