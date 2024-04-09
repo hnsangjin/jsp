@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -150,8 +152,96 @@ public class CartDAO {
 		return result;
 
 	}
+
+	public List<CartDTO> getCartList(String user_id) {
+
+		List<CartDTO> list = new ArrayList<CartDTO>();
+
+		try {
+			openConn();
+
+			sql = "select * from shop_cart where cart_userid = ? order by cart_num desc";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, user_id);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				CartDTO dto = new CartDTO();
+
+				dto.setCart_num(rs.getInt("cart_num"));
+				dto.setCart_pnum(rs.getInt("cart_pnum"));
+				dto.setCart_userid(rs.getString("cart_userid"));
+				dto.setCart_pname(rs.getString("cart_pname"));
+				dto.setCart_pqty(rs.getInt("cart_pqty"));
+				dto.setCart_price(rs.getInt("cart_price"));
+				dto.setCart_pspec(rs.getString("cart_pspec"));
+				dto.setCart_pimage(rs.getString("cart_pimage"));
+
+				list.add(dto);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return list;
+
+	}
 	
+	public int deleteCart(int no) {
+		
+		int result = 0;
+		
+		
+		try {
+			openConn();
+			
+			sql = "delete from shop_cart where cart_num = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(pstmt, con);
+		}return result;
+		
+	}
 	
+	public void updateSequence(int no) {
+		
+	
+		try {
+			openConn();
+			
+			sql = "update shop_cart set cart_num = cart_num - 1 where cart_num > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(pstmt, con);
+			
+		}
+		
+	}
 	
 	
 	

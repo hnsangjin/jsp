@@ -17,7 +17,7 @@
 		<a href="<%=request.getContextPath() %>/user_login.go">[회원 로그인]</a>
 		
 		&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-		
+			
 		<a href="<%=request.getContextPath() %>/admin_login.go">[관리자 로그인]</a>
 	</div>
 </body>

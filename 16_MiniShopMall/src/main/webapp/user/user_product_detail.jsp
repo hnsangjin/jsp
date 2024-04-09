@@ -40,7 +40,7 @@
 					<input type="hidden" name="p_num" value="${dto.getPnum() }">
 					<input type="hidden" name="p_spec" value="${dto.getPspec() }">
 					<input type="hidden" name="p_image" value="${dto.getPimage() }">
-					<input type="hidden" name="userId" value="${userId }">
+					<input type="hidden" name="userId" value="${UserId }">
 						<table border="0">
 							<tr>
 								<th>제품번호 :</th>
