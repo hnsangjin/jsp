@@ -24,7 +24,12 @@ public class UserProductViewAction implements Action {
 		
 		request.setAttribute("ProductCont", cont);
 		
-		return null;
+		ActionForward forward = new ActionForward();
+		
+		forward.setRedirect(false);
+		forward.setPath("user/user_product_detail.jsp");
+		
+		return forward;
 	}
 
 }
