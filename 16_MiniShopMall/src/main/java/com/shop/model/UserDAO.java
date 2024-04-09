@@ -111,7 +111,7 @@ public class UserDAO {
 		try {
 			openConn();
 
-			sql = "select from member where memid = ?";
+			sql = "select * from member where memid = ?";
 
 			pstmt = con.prepareStatement(sql);
 

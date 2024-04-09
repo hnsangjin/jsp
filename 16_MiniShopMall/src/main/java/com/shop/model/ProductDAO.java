@@ -318,7 +318,51 @@ public class ProductDAO {
 		
 	}
 	
-	
+	public List<ProductDTO> getProductList(String code) {
+		
+		List<ProductDTO> list = new ArrayList<ProductDTO>();
+		
+		try {
+			openConn();
+
+			sql = "select * from shop_products where pcategory_fk = ?";
+
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, code);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductDTO dto = new ProductDTO();
+
+				dto.setPnum(rs.getInt("pnum"));
+				dto.setPname(rs.getString("pname"));
+				dto.setPcategory_fk(rs.getString("pcategory_fk"));
+				dto.setPcompany(rs.getString("pcompany"));
+				dto.setPimage(rs.getString("pimage"));
+				dto.setPqty(rs.getInt("pqty"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setPspec(rs.getString("pspec"));
+				dto.setPcontents(rs.getString("pcontents"));
+				dto.setPoint(rs.getInt("point"));
+				dto.setPinputdate(rs.getString("pinputdate"));
+
+				list.add(dto);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return list;
+
+		
+	}
 	
 	
 	
